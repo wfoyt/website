@@ -2,6 +2,8 @@
 
 ## Style and content
 
+Use **wfo** as the personal display name in visible copy and metadata.
+
 Maintain a professional terminal-inspired portfolio. Use the name **Foyt Labs**, without a slash. Keep copy factual, concise, and specific to the software. Avoid slogans, jokes, hype, conversational introductions, or invented capabilities. Do not restore the scrolling text ticker, Projects/The lab header links, or an Omarchy attribution in the footer.
 
 Retain the monospace typography, dark terminal palettes, restrained accent colors, thin borders, ASCII branding, and responsive grid. Use the theme variables in `dist/style.css`; do not hard-code new colors. Any new animation must respect reduced-motion settings and the site's motion toggle.
