@@ -5,5 +5,5 @@
 ██      ██  ██    ██      ██         ██      ██  ██  ██  ██      ██
 ██       ████     ██      ██         ██████  ██  ██  █████   █████ 
 
-  [F_] FOYT LABS // Linux applications and desktop utilities.
+  [F] FOYT LABS // Linux applications and desktop utilities.
   https://github.com/wfoyt
