@@ -5,5 +5,5 @@
 ██      ██  ██    ██      ██         ██      ██  ██  ██  ██      ██
 ██       ████     ██      ██         ██████  ██  ██  █████   █████ 
 
-  [F_] FOYT LABS // Small tools. Full control.
+  [F_] FOYT LABS // Linux applications and desktop utilities.
   https://github.com/wfoyt

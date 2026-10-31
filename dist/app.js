@@ -47,7 +47,7 @@ document.querySelectorAll('.filter').forEach(button=>button.addEventListener('cl
  $('#result-count').textContent=`showing ${String(count).padStart(2,'0')} / 04`;
 }));
 const projects={
- lumen:{title:'Lumen',repo:'Lumen',tag:'LOCAL AI / DESKTOP APP',description:'Your ideas. Your models. Your Linux desktop. Lumen brings Ollama conversations and useful everyday tools into a native GNOME app.',features:['Chat with Ollama locally or connect to your own server.','Attach images, PDFs, text, code, and CSV files with built-in previews.','Use Python tools, optional Brave Search, and custom MCP servers.','Save conversations locally and revisit different response versions.'],requires:'Linux, Flatpak, a running Ollama service, and a downloaded model. Image and tool support depend on your selected model.',release:true},
+ lumen:{title:'Lumen',repo:'Lumen',tag:'LOCAL AI / DESKTOP APP',description:'Lumen is a native GNOME client for Ollama conversations, file attachments, and model tools.',features:['Chat with Ollama locally or connect to your own server.','Attach images, PDFs, text, code, and CSV files with built-in previews.','Use Python tools, optional Brave Search, and custom MCP servers.','Save conversations locally and revisit different response versions.'],requires:'Linux, Flatpak, a running Ollama service, and a downloaded model. Image and tool support depend on your selected model.',release:true},
  redragon:{title:'Redragon Control',repo:'Redragon-Control',tag:'HARDWARE / DESKTOP APP',description:'Lighting, key shortcuts, and wheel controls for the Redragon K686WBG-RGB-MAX on Linux. Built with GTK 4 and libadwaita.',features:['Save keyboard lighting and choose from 17 built-in animations.','Remap keys and wheel actions to shortcuts or media controls.','Save, switch, import, and export reusable profiles.','Match Adwaita or your Omarchy desktop palette.'],requires:'64-bit x86 Linux and a supported K686 MAX keyboard. Lighting requires the 2.4 GHz receiver; key and wheel remapping also supports a USB cable. Other Redragon models are not currently supported.',release:true},
  audio:{title:'Omarchy Audio Control',repo:'Omarchy-Audio-Control',tag:'MUSIC / OMARCHY PLUGIN',description:'A themed music button for the Omarchy Quickshell bar, with native colors, spacing, and popup behavior.',features:['See album artwork, track name, artist, and album.','Control previous/restart, play/pause, and next.','Choose between available media players.','Keep Omarchy’s media hotkeys and player detection.'],requires:'Omarchy with Quickshell and the omarchy plugin commands. Your music player must expose MPRIS controls and metadata.',release:false},
  monitor:{title:'Monitor Layout',repo:'omarchy-monitor-manager',tag:'DISPLAYS / OMARCHY PLUGIN',description:'A native Omarchy shell plugin for arranging displays and tuning each monitor’s resolution, refresh rate, and scale.',features:['Drag numbered displays into place with snapping edges.','Fine-tune positions, resolution, refresh rate, and scale.','Preview changes with a 20-second automatic rollback.','Save backed-up settings while preserving manual configuration outside the managed block.'],requires:'Omarchy 4’s Quickshell plugin system, Hyprland’s Lua configuration API, and Python 3. This version manages active extended displays; mirroring and monitor disabling are outside its scope.',release:false}
@@ -61,13 +61,25 @@ document.querySelectorAll('[data-project]').forEach(button=>button.addEventListe
 }));
 document.querySelectorAll('.close-dialog').forEach(b=>b.addEventListener('click',()=>b.closest('dialog').close()));
 document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close()}}));
-$('#command-open').addEventListener('click',()=>commandDialog.showModal());
+const commandItems = [...commandDialog.querySelectorAll('.command-item')];
+function openCommandMenu(){commandDialog.showModal();commandItems[0].focus()}
+$('#command-open').addEventListener('click',openCommandMenu);
+commandDialog.addEventListener('keydown',event=>{
+ const index=commandItems.indexOf(document.activeElement);
+ let next;
+ if(event.key==='ArrowDown')next=(index+1)%commandItems.length;
+ if(event.key==='ArrowUp')next=index<0?commandItems.length-1:(index-1+commandItems.length)%commandItems.length;
+ if(event.key==='Home')next=0;
+ if(event.key==='End')next=commandItems.length-1;
+ if(next!==undefined){event.preventDefault();event.stopPropagation();commandItems[next].focus();commandItems[next].scrollIntoView({block:'nearest'})}
+ if(event.key==='Enter'&&index>=0){event.preventDefault();commandItems[index].click()}
+});
 commandDialog.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>commandDialog.close()));
 document.addEventListener('keydown',e=>{
- if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();if(projectDialog.open)projectDialog.close();commandDialog.open?commandDialog.close():commandDialog.showModal();return}
+ if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();if(projectDialog.open)projectDialog.close();commandDialog.open?commandDialog.close():openCommandMenu();return}
  if(e.ctrlKey||e.metaKey||e.altKey||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)||projectDialog.open)return;
  const key=e.key.toLowerCase();
  if(key==='t')nextTheme();if(key==='m')toggleMotion();
  if(key==='p'||key==='a'){commandDialog.close();location.hash=key==='p'?'projects':'about'}
- if(key==='?')commandDialog.showModal();
+ if(key==='?')openCommandMenu();
 });
