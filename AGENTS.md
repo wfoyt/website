@@ -23,4 +23,4 @@ Retain the monospace typography, dark terminal palettes, restrained accent color
 
 This is a buildless static site served from `dist/`. Run `node --check dist/app.js`. Preview desktop and mobile layouts, filters, detail dialogs, source/download links, theme and motion controls. Confirm no horizontal overflow. Check the command menu with Arrow Up/Down, Home/End, Enter, Tab, and Escape; keep keyboard focus visible.
 
-Keep `.openai/hosting.json` and its existing project ID. Follow the Sites workflow to package and deploy, preserving the site's audience. Keep this file in the source repository, outside `dist/`.
+Keep `.openai/hosting.json` and its existing project ID as historical Sites metadata, outside `dist/`. Production hosting is Cloudflare Pages at `foyt.net`, connected to `wfoyt/website`. Publish by pushing to `main`; serve `dist/` with no build command. Use the Cloudflare Pages workflow for production deployments.

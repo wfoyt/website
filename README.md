@@ -11,3 +11,9 @@ The four listed repositories were explicitly verified public using GitHub metada
 Keyboard: Cmd/Ctrl+K opens the command menu; P jumps to projects; A opens the lab section; T cycles themes; M toggles motion; Arrow Up/Down selects command-menu options; Home/End jumps to the first/last option; Enter activates the selected option; Escape closes dialogs. Respects reduced-motion preferences.
 
 Original logo assets live at `dist/logo.svg` and `dist/foyt-labs-ascii.txt`. See `AGENTS.md` for design and repository-card guidelines.
+
+## Deployment
+
+Production is hosted on Cloudflare Pages at https://foyt.net, from the `main` branch of `wfoyt/website`. Serve `dist/` with no build command and no framework preset. Pushes to `main` trigger production deployments; other branches receive preview deployments through the Cloudflare GitHub integration.
+
+The `.openai/hosting.json` file preserves the original Sites project metadata for reference. Cloudflare Pages is the production deployment target.
