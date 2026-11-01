@@ -14,6 +14,6 @@ Original logo assets live at `dist/logo.svg` and `dist/foyt-labs-ascii.txt`. See
 
 ## Deployment
 
-Production is hosted on Cloudflare Pages at https://foyt.net, from the `main` branch of `wfoyt/website`. Serve `dist/` with no build command and no framework preset. Pushes to `main` trigger production deployments; other branches receive preview deployments through the Cloudflare GitHub integration.
+Production is hosted on Cloudflare Pages ([`foyt-labs`](https://foyt-labs.pages.dev)) at https://foyt.net, from the `main` branch of `wfoyt/website`. Serve `dist/` with no build command and no framework preset. Pushes to `main` trigger production deployments; other branches receive preview deployments through the Cloudflare GitHub integration.
 
 The `.openai/hosting.json` file preserves the original Sites project metadata for reference. Cloudflare Pages is the production deployment target.
