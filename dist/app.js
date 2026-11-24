@@ -1,34 +1,76 @@
 const $ = (s) => document.querySelector(s);
-const themes = ['gruvbox','phosphor','tokyo'];
-let theme = themes.includes(localStorage.getItem('foyt-theme')) ? localStorage.getItem('foyt-theme') : 'gruvbox';
-function applyTheme(){document.documentElement.dataset.theme=theme;$('#theme-name').textContent={gruvbox:'Gruvbox',phosphor:'Phosphor',tokyo:'Tokyo Night'}[theme];localStorage.setItem('foyt-theme',theme)}
-function nextTheme(){theme=themes[(themes.indexOf(theme)+1)%themes.length];applyTheme()}
-applyTheme();$('#theme-toggle').addEventListener('click',nextTheme);$('#command-theme').addEventListener('click',nextTheme);
+
+function readPreference(key) {
+ try {
+  return window.localStorage?.getItem(key) ?? null;
+ } catch {
+  return null;
+ }
+}
+
+function savePreference(key, value) {
+ try {
+  window.localStorage?.setItem(key, value);
+ } catch {
+  // Keep preferences working for the current visit when storage is blocked.
+ }
+}
+
+const themeNames = { gruvbox: 'Gruvbox', phosphor: 'Phosphor', tokyo: 'Tokyo Night' };
+const themes = Object.keys(themeNames);
+const savedTheme = readPreference('foyt-theme');
+let theme = themes.includes(savedTheme) ? savedTheme : 'gruvbox';
+
+function applyTheme() {
+ document.documentElement.dataset.theme = theme;
+ $('#theme-name').textContent = themeNames[theme];
+}
+
+function nextTheme() {
+ theme = themes[(themes.indexOf(theme) + 1) % themes.length];
+ applyTheme();
+ savePreference('foyt-theme', theme);
+}
+
+applyTheme();
+$('#theme-toggle').addEventListener('click', nextTheme);
+$('#command-theme').addEventListener('click', nextTheme);
+
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const motionToggle = $('#motion-toggle');
+const commandMotion = $('#command-motion');
+const wordmark = $('.wordmark');
 const reactorArt = $('#reactor-art');
 const coordinate = $('#coordinate');
-let motion = localStorage.getItem('foyt-motion') !== 'false';
+let motion = readPreference('foyt-motion') !== 'false';
 let angle = .42;
 let frame;
 let lastFrame;
 
 function applyMotion() {
- const active = motion && !reducedMotion.matches;
+ const reduced = reducedMotion.matches;
+ const active = motion && !reduced;
  document.documentElement.classList.toggle('motion-off', !active);
- motionToggle.textContent = active ? '◉ Motion: on' : '○ Motion: off';
+ motionToggle.textContent = reduced ? '○ Motion: reduced' : active ? '◉ Motion: on' : '○ Motion: off';
  motionToggle.setAttribute('aria-pressed', String(!active));
- $('#reactor-status').textContent = active ? '[ RUNNING ]' : '[ PAUSED ]';
+ for (const control of [motionToggle, commandMotion]) {
+  control.setAttribute('aria-disabled', String(reduced));
+  control.title = reduced ? 'Your browser requests reduced motion' : '';
+ }
+ $('#reactor-status').textContent = reduced ? '[ REDUCED MOTION ]' : active ? '[ RUNNING ]' : '[ PAUSED ]';
 
  cancelAnimationFrame(frame);
  lastFrame = undefined;
- if (active && !document.hidden) frame = requestAnimationFrame(animateReactor);
+ if (active && !document.hidden) {
+  wordmark.classList.add('reveal-wordmark');
+  frame = requestAnimationFrame(animateReactor);
+ }
 }
 
 function toggleMotion() {
  if (reducedMotion.matches) return;
  motion = !motion;
- localStorage.setItem('foyt-motion', String(motion));
+ savePreference('foyt-motion', String(motion));
  applyMotion();
 }
 
@@ -63,7 +105,7 @@ function animateReactor(now) {
 renderReactor();
 applyMotion();
 motionToggle.addEventListener('click', toggleMotion);
-$('#command-motion').addEventListener('click', toggleMotion);
+commandMotion.addEventListener('click', toggleMotion);
 reducedMotion.addEventListener('change', applyMotion);
 document.addEventListener('visibilitychange', applyMotion);
 
