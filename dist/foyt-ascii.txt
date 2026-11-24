@@ -5,5 +5,5 @@
 ██      ██  ██    ██      ██  ██  ██  ██  ██        ██
 ██       ████     ██      ██  ██  ██  ██  ██████    ██
 
-  [F] FOYT — Linux software by wfoyt
+  [F] FOYT.NET — Linux software by wfoyt
   https://github.com/wfoyt
