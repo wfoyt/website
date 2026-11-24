@@ -1,6 +1,6 @@
 # Foyt
 
-A buildless directory for [wfoyt](https://github.com/wfoyt)’s public desktop apps, terminal tools, and Omarchy plugins. The site includes an ASCII wordmark, an animated orbital illustration, three terminal color themes, project filters, detail dialogs, and keyboard navigation.
+A buildless directory for [wfoyt](https://github.com/wfoyt)’s public desktop apps, terminal tools, and Omarchy plugins. The site includes an ASCII wordmark, an animated orbital illustration, three terminal color themes, project filters, and dedicated README pages with links to GitHub.
 
 Serve `dist/` with any static web server. No build or package installation is required.
 
@@ -8,7 +8,9 @@ Serve `dist/` with any static web server. No build or package installation is re
 
 The five listed repositories were verified public using GitHub metadata on November 24, 2026. The directory is a curated snapshot. To add projects, verify public visibility first and update the directory and its counts. Never embed credentials or private repository metadata.
 
-Cmd/Ctrl+K opens the command menu. P jumps to Projects, A jumps to About, T cycles themes, and M toggles motion. In the command menu, Arrow Up/Down moves between options, Home/End jumps to the first or last option, and Enter activates the selected option. Escape closes dialogs. The site respects the system’s reduced-motion preference.
+Project pages contain static snapshots of the public READMEs. Run `python3 scripts/update-readmes.py` from the repository root to refresh them, then review the changes under `dist/projects/`. Only the refresh needs access to the GitHub API.
+
+Cmd/Ctrl+K opens the command menu. P jumps to Projects, A jumps to About, T cycles themes, and M toggles motion. In the command menu, Arrow Up/Down moves between options, Home/End jumps to the first or last option, and Enter activates the selected option. Escape closes the menu. The site respects the system’s reduced-motion preference.
 
 The logo assets are `dist/logo.svg` and `dist/foyt-ascii.txt`. See `AGENTS.md` for design and repository-card guidelines.
 
