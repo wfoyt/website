@@ -8,7 +8,7 @@ Serve `dist/` with any static web server. No build or package installation is re
 
 The five listed repositories were verified public using GitHub metadata on November 24, 2026. The directory is a curated snapshot. To add projects, verify public visibility first and update the directory and its counts. Never embed credentials or private repository metadata.
 
-Project pages contain static snapshots of the public READMEs. Run `python3 scripts/update-readmes.py` from the repository root to refresh them, then review the changes under `dist/projects/`. Only the refresh needs access to the GitHub API.
+Project pages load the latest public README from GitHub when opened. Each page includes a bundled snapshot for visitors who cannot reach the GitHub API or use JavaScript. Run `python3 scripts/update-readmes.py` from the repository root to refresh those snapshots, then review the changes under `dist/projects/`.
 
 Cmd/Ctrl+K opens the command menu. P jumps to Projects, A jumps to About, T cycles themes, and M toggles motion. In the command menu, Arrow Up/Down moves between options, Home/End jumps to the first or last option, and Enter activates the selected option. Escape closes the menu. The site respects the system’s reduced-motion preference.
 

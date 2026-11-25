@@ -21,13 +21,15 @@ Retain the monospace typography, dark terminal palettes, restrained accent color
 
 ## Syncing project READMEs from GitHub
 
-1. Update the README in its GitHub repository and make sure the change is on that repository's default branch. Update the project's `install` value if the installation heading changed.
-2. From the website repository root, run `python3 scripts/update-readmes.py` with network access to GitHub. The script verifies public ownership, renders each registered repository's README at the current default-branch commit, and refreshes all pages under `dist/projects/`. It checks for a latest release and uses the installation link when there is no release.
-3. Review the generated diff and preview the affected pages. Check the contents links, installation section, images, and GitHub links. Make content corrections in the source README on GitHub and run the script again.
-4. Commit the generated HTML with any related card or project entry changes. Follow the publication steps below to update the live site. GitHub README edits appear on the site after you regenerate and publish the static pages.
+Edit the README on the project's default branch. Each project page loads GitHub's current public README when opened. Routine README edits need no website deployment. The page uses its bundled snapshot when the live request fails or JavaScript is unavailable.
+
+1. Generate a snapshot when adding a project, changing its README location or default branch, or refreshing the bundled copy. Update the project's `install` value if the installation heading changed.
+2. From the website repository root, run `python3 scripts/update-readmes.py` with network access to GitHub. The script verifies public ownership, refreshes the snapshots under `dist/projects/`, and checks whether each project has a latest release.
+3. Review the generated diff and preview the affected pages. Check the contents links, installation section, images, and GitHub links. Verify the live README and its fallback by testing with and without access to the GitHub API.
+4. Commit the generated HTML with any related card or project entry changes. Follow the publication steps below to update the bundled copies on the live site.
 
 ## Verification and publication
 
-This is a buildless static site served from `dist/`. Run `node --check dist/app.js`. Preview desktop and mobile layouts, filters, README pages and their section links, source/download links, and theme and motion controls. Confirm no horizontal overflow. Check the command menu with Arrow Up/Down, Home/End, Enter, Tab, and Escape. Keep keyboard focus visible.
+This is a buildless static site served from `dist/`. Run `node --check dist/app.js` and `node --check dist/project-readme.js`. Preview desktop and mobile layouts, filters, README pages and their section links, source/download links, and theme and motion controls. Confirm no horizontal overflow. Check the command menu with Arrow Up/Down, Home/End, Enter, Tab, and Escape. Keep keyboard focus visible.
 
 Keep `.openai/hosting.json` and its existing project ID as historical Sites metadata, outside `dist/`. Production hosting is Cloudflare Pages at `foyt.net`, connected to `wfoyt/website`. Publish by pushing to `main`; serve `dist/` with no build command. Use the Cloudflare Pages workflow for production deployments.

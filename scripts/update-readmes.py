@@ -46,7 +46,7 @@ PROJECTS = (
     Project(
         "flatfind", "flatfind", "Flatfind",
         "Find, preview, install, and remove Flatpak apps from a full-screen terminal picker.",
-        "green", "install",
+        "green", "quick-start",
     ),
     Project(
         "lumen", "Lumen", "Lumen",
@@ -260,7 +260,13 @@ class Readme:
             attrs.update(type="checkbox", disabled="")
             if "checked" in source:
                 attrs["checked"] = ""
-        result = html_tag(tag, attrs, self.children(element))
+        content = self.children(element)
+        if tag == "a" and "href" in attrs:
+            images = [child for child in element.children if isinstance(child, Element) and child.name == "img"]
+            if len(images) == 1 and len(children) == 1 and urlsplit(images[0].attrs.get("src", "")).path.lower().endswith(".gif"):
+                label = escape(images[0].attrs.get("alt") or "View animation")
+                content = f'<span class="readme-animated-image">{content}</span><span class="readme-animation-label">{label}</span>'
+        result = html_tag(tag, attrs, content)
         if tag == "table":
             return f'<div class="readme-table" tabindex="0" role="region" aria-label="README table">{result}</div>'
         return result
@@ -282,7 +288,8 @@ def render_page(project):
     if not re.fullmatch(r"[0-9a-f]{40}", revision):
         raise ValueError("GitHub returned an invalid commit ID")
     readme_endpoint = f"{api_repo}/readme?{urlencode({'ref': revision})}"
-    readme_path = json.loads(github(readme_endpoint))["path"]
+    readme_metadata = json.loads(github(readme_endpoint))
+    readme_path = readme_metadata["path"]
     if not re.fullmatch(r"(?:[\w.-]+/)*[\w.-]+", readme_path):
         raise ValueError("GitHub returned an invalid README path")
     html = github(readme_endpoint, "application/vnd.github.html+json")
@@ -297,7 +304,7 @@ def render_page(project):
         release = False
 
     repo_url = f"{GITHUB}/{OWNER}/{project.repo}"
-    readme_url = f"{readme.blob}/{quote(readme_path)}"
+    readme_url = f"{repo_url}/blob/{branch}/{quote(readme_path)}"
     title = escape(project.title)
     summary = escape(project.summary)
     canonical = f"https://foyt.net/projects/{project.slug}/"
@@ -326,7 +333,8 @@ def render_page(project):
   <link rel="canonical" href="{canonical}">
   <link rel="icon" type="image/svg+xml" href="/logo.svg">
   <script src="/app.js?v=project-readmes-1"></script>
-  <link rel="stylesheet" href="/style.css?v=project-readmes-1">
+  <script type="module" src="/project-readme.js?v=1"></script>
+  <link rel="stylesheet" href="/style.css?v=live-readmes-1">
 </head>
 <body class="project-page" data-project-accent="{project.accent}">
   <a href="#readme-title" class="skip-link">Skip to README</a>
@@ -365,7 +373,8 @@ def render_page(project):
           <h2 id="readme-title" tabindex="-1">README.md</h2>
           <a href="{readme_url}" target="_blank" rel="noopener noreferrer">README on GitHub <span aria-hidden="true">↗</span></a>
         </div>
-        <div class="readme-content">
+        <p class="readme-status" role="status" hidden>Showing the saved README. Open the README on GitHub to check for updates.</p>
+        <div class="readme-content" data-repo="{project.repo}" data-branch="{branch}" data-path="{quote(readme_path)}" data-snapshot-sha="{escape(readme_metadata['sha'])}">
 {readme.html.strip()}
         </div>
       </section>

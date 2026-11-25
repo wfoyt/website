@@ -262,6 +262,10 @@ html.motion-off{scroll-behavior:auto}
   border: 1px solid var(--line);
 }
 
+.project-page-actions .button[hidden] {
+  display: none;
+}
+
 .project-docs {
   display: grid;
   grid-template-columns: minmax(0, 1fr) clamp(160px, 20%, 220px);
@@ -324,6 +328,19 @@ html.motion-off{scroll-behavior:auto}
   min-width: 0;
   border: 1px solid var(--line);
   background: color-mix(in srgb, var(--panel) 52%, var(--bg));
+}
+
+.project-docs:has(> .project-toc[hidden]) {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: 'readme';
+}
+
+.readme-status {
+  margin: 0;
+  padding: 10px clamp(16px, 3vw, 36px);
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 11px;
 }
 
 .project-readme-bar {
@@ -409,6 +426,21 @@ html.motion-off{scroll-behavior:auto}
   max-width: 100%;
   height: auto;
   vertical-align: middle;
+}
+
+.readme-animated-image { display: var(--readme-animation-display, inline); }
+.readme-animation-label { display: var(--readme-animation-label-display, none); }
+
+.motion-off .project-readme {
+  --readme-animation-display: none;
+  --readme-animation-label-display: inline;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-readme {
+    --readme-animation-display: none;
+    --readme-animation-label-display: inline;
+  }
 }
 
 .readme-center {
