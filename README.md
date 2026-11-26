@@ -6,7 +6,7 @@ Serve `dist/` with any static web server. No build or package installation is re
 
 ## Content
 
-The five listed repositories were verified public using GitHub metadata on November 24, 2026. The directory is a curated snapshot. To add projects, verify public visibility first and update the directory and its counts. Never embed credentials or private repository metadata.
+The five listed repositories were verified public using GitHub metadata on November 26, 2026. The directory is a curated snapshot. To add projects, verify public visibility first and update the directory and its counts. Never embed credentials or private repository metadata.
 
 Project pages load the latest public README from GitHub when opened. Each page includes a bundled snapshot for visitors who cannot reach the GitHub API or use JavaScript. Run `python3 scripts/update-readmes.py` from the repository root to refresh those snapshots, then review the changes under `dist/projects/`.
 

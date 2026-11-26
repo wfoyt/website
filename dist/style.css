@@ -71,7 +71,7 @@ html.motion-off{scroll-behavior:auto}
   animation: none;
 }
 
-.flatfind-selection {
+.picker-selection {
   color: var(--bg);
   background: var(--card-accent);
   animation: picker-highlight 4s ease-in-out infinite;
@@ -136,7 +136,12 @@ html.motion-off{scroll-behavior:auto}
   }
 }
 
-/* Project cards have one full-card link and a separate source link. */
+/* Keep external links clickable above the full-card README link. */
+.card-actions {
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+
 .card-actions .details-link {
   display: inline-flex;
   align-items: center;
